@@ -6,7 +6,6 @@ ENV SONAR_VERSION=6.0 \
 
 USER root
 EXPOSE 9000
-ADD root /
 RUN cd /tmp \
     && curl -o sonarqube.zip -fSL https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
     && cd /opt \
@@ -20,10 +19,11 @@ RUN sed -i "s|#http.proxyHost=|http.proxyHost=proxy.hud.gov |g" $SONARQUBE_HOME/
     && sed -i "s|#https.proxyHost=|https.proxyHost=proxy.hud.gov |g" $SONARQUBE_HOME/conf/sonar.properties \
     && sed -i "s|#https.proxyPort=|https.proxyPort=8443 |g" $SONARQUBE_HOME/conf/sonar.properties
   
-RUN chmod 777 /usr/bin/fix-permissions
-  
 RUN useradd -r sonar
-RUN /usr/bin/fix-permissions /opt/sonarqube \
+RUN chown -R sonar $SONARQUBE_HOME \
+    && chgrp -R 0 $SONARQUBE_HOME \
+    && chmod -R g+rw $SONARQUBE_HOME \
+    && find $SONARQUBE_HOME -type d -exec chmod g+x {} + \
     && chmod 775 $SONARQUBE_HOME/bin/run.sh
 
 USER sonar
