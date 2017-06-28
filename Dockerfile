@@ -15,9 +15,9 @@ RUN cd /tmp \
     && rm /tmp/sonarqube.zip*
 COPY run.sh $SONARQUBE_HOME/bin/
 
-RUN sed -i "s|#http.proxyHost=|http.proxyHost=170.97.167.20 |g" $SONARQUBE_HOME/conf/sonar.properties \
+RUN sed -i "s|#http.proxyHost=|http.proxyHost=proxy.hud.gov |g" $SONARQUBE_HOME/conf/sonar.properties \
     && sed -i "s|#http.proxyPort=|http.proxyPort=8080 |g" $SONARQUBE_HOME/conf/sonar.properties \
-    && sed -i "s|#https.proxyHost=|https.proxyHost=170.97.167.20 |g" $SONARQUBE_HOME/conf/sonar.properties \
+    && sed -i "s|#https.proxyHost=|https.proxyHost=proxy.hud.gov |g" $SONARQUBE_HOME/conf/sonar.properties \
     && sed -i "s|#https.proxyPort=|https.proxyPort=8443 |g" $SONARQUBE_HOME/conf/sonar.properties
   
 RUN chmod 777 /usr/bin/fix-permissions
