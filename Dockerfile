@@ -28,4 +28,4 @@ RUN chown -R sonar $SONARQUBE_HOME \
 
 USER sonar
 WORKDIR $SONARQUBE_HOME
-CMD ["echo $http_proxy"]
+CMD ["./usr/bin/echo $http_proxy"]
